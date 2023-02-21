@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import r as routers
+#from routers import r as routers
 from database import database
 import uvicorn
 
@@ -8,8 +8,8 @@ database.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
-for router in routers:
-    app.include_router(router)
+# for router in routers:
+#     app.include_router(router)
     
 origins = [
     "*",
