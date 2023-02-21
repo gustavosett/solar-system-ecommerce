@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 #from routers import r as routers
-from database import database
+import database
 import uvicorn
 
 database.Base.metadata.create_all(bind=database.engine)

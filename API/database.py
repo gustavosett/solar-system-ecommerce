@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_utils import database_exists, create_database
 
 
-engine = create_engine("mysql+pymysql://user:password@localhost/vias_database")
+engine = create_engine("mysql+pymysql://admin:admin@localhost/solarsystem_database")
 
 SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
