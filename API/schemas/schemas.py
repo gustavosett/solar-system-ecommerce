@@ -1,28 +1,44 @@
 from typing import Optional, List
 from pydantic import BaseModel
+from datetime import date, datetime
+
+
+class RoleBase(BaseModel):
+    role_name: str
+    permissions: int
+
+    class Config:
+        orm_mode = True
+
+
+class Role(RoleBase):
+    pass
+
+
 
 
 class UserBase(BaseModel):
-    role: str
+    role_id: int
     cpf: str
     first_name: str
     last_name: str
     phone: str
     email: str
-    birth_date: Optional[str]
+    birth_date: date
+    password: str
 
 
 class UserCreate(UserBase):
-    password: str
+    confirm_password: str
 
 
 class User(UserBase):
     id: int
     created_at: str
     status: str
-    last_email_modification: Optional[str]
-    last_password_modification: Optional[str]
-    last_activity: Optional[str]
+    last_email_modification: Optional[datetime]
+    last_password_modification: Optional[datetime]
+    last_activity: Optional[datetime]
     addresses: List['Address'] = []
 
     class Config:
@@ -188,7 +204,7 @@ class CheckoutBase(BaseModel):
     complement: Optional[str]
     city: str
     state: str
-    zip_code: str
+    cep_code: str
     is_primary: bool
 
 

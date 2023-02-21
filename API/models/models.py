@@ -1,24 +1,36 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Numeric
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Numeric, Date
 from sqlalchemy.orm import relationship, backref
-from ..database import Base
+from database import Base
+
+class Role(Base):
+    __tablename__ = 'roles'
+
+    id = Column(Integer, primary_key=True)
+    role_name = Column(String(15))
+    permissions = Column(Integer)
+
+    users = relationship("User", back_populates="role")
 
 class User(Base):
     __tablename__ = 'users'
+
     id = Column(Integer, primary_key=True)
-    role = Column(String(50))
+    role_id = Column(Integer, ForeignKey('roles.id'), nullable=False, index=True)
     cpf = Column(String(14))
     first_name = Column(String(50))
     last_name = Column(String(50))
     phone = Column(String(20))
     email = Column(String(100))
     password_hash = Column(String(128))
-    birth_date = Column(DateTime)
-    created_at = Column(DateTime)
-    status = Column(String(20))
-    last_email_modification = Column(DateTime)
-    last_password_modification = Column(DateTime)
-    last_activity = Column(DateTime)
+    birth_date = Column(Date)
+    created_at = Column(DateTime, nullable=True)
+    status = Column(String(20), default="Active")
+    last_email_modification = Column(DateTime, nullable=True)
+    last_password_modification = Column(DateTime, nullable=True)
+    last_activity = Column(DateTime, nullable=True)
+
     addresses = relationship('Address', backref=backref('user', uselist=False))
+    role = relationship("Role", back_populates="users")
 
 class Address(Base):
     __tablename__ = 'addresses'
@@ -44,7 +56,7 @@ class Product(Base):
     in_promotion = Column(Boolean, default=False)
     promotion_value = Column(Numeric(precision=10, scale=2))
     final_value = Column(Numeric(precision=10, scale=2))
-    related_products = relationship('Product', secondary='product_related_associations',
+    related_products = relationship('Product', secondary='product_related_association',
                                      primaryjoin='Product.id==ProductRelatedAssociation.product_id',
                                      secondaryjoin='Product.id==ProductRelatedAssociation.related_product_id')
 
