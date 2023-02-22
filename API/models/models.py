@@ -23,7 +23,7 @@ class User(Base):
     email = Column(String(100))
     password_hash = Column(String(128))
     birth_date = Column(Date)
-    created_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime)
     status = Column(String(20), default="Active")
     last_email_modification = Column(DateTime, nullable=True)
     last_password_modification = Column(DateTime, nullable=True)

@@ -7,13 +7,11 @@ class RoleBase(BaseModel):
     role_name: str
     permissions: int
 
-    class Config:
-        orm_mode = True
-
 
 class Role(RoleBase):
-    pass
-
+    id: int
+    class Config:
+        orm_mode = True
 
 
 
@@ -26,6 +24,7 @@ class UserBase(BaseModel):
     email: str
     birth_date: date
     password: str
+    created_at: datetime = datetime.now()
 
 
 class UserCreate(UserBase):
@@ -34,11 +33,10 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    created_at: str
     status: str
     last_email_modification: Optional[datetime]
     last_password_modification: Optional[datetime]
-    last_activity: Optional[datetime]
+    last_activity: datetime = datetime.now()
     addresses: List['Address'] = []
 
     class Config:
