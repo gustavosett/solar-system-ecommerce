@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Numeric, Date
 from sqlalchemy.orm import relationship, backref
 from database import Base
+from datetime import datetime
+
 
 class Role(Base):
     __tablename__ = 'roles'
@@ -21,13 +23,13 @@ class User(Base):
     last_name = Column(String(50))
     phone = Column(String(20))
     email = Column(String(100))
-    password_hash = Column(String(128))
+    password = Column(String(128))
     birth_date = Column(Date)
-    created_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.now)
     status = Column(String(20), default="Active")
     last_email_modification = Column(DateTime, nullable=True)
     last_password_modification = Column(DateTime, nullable=True)
-    last_activity = Column(DateTime, nullable=True)
+    last_activity = Column(DateTime, default=datetime.now)
 
     addresses = relationship('Address', backref=backref('user', uselist=False))
     role = relationship("Role", back_populates="users")

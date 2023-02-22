@@ -24,7 +24,6 @@ class UserBase(BaseModel):
     email: str
     birth_date: date
     password: str
-    created_at: datetime = datetime.now()
 
 
 class UserCreate(UserBase):
@@ -33,10 +32,12 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+    # role = str
     status: str
+    created_at: datetime
     last_email_modification: Optional[datetime]
     last_password_modification: Optional[datetime]
-    last_activity: datetime = datetime.now()
+    last_activity: datetime
     addresses: List['Address'] = []
 
     class Config:

@@ -1,5 +1,13 @@
-from .users import router as user_router
-from .roles import router as roles_router
+import os
+import importlib
 
-routers = [user_router, roles_router]
+pasta = './routers'
+routers = []
 
+for diretorio, subpastas, arquivos in os.walk(pasta):
+    for arquivo in arquivos:
+        if not any(substring in arquivo for substring in [".pyc", "_"]):
+            nome_modulo = os.path.splitext(arquivo)[0]
+            modulo = importlib.import_module(f'.{nome_modulo}', package='routers')
+            router = getattr(modulo, 'router')
+            routers.append(router)
