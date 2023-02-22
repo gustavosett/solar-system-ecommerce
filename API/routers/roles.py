@@ -42,7 +42,7 @@ async def get_role_by_id(role_id: int, db: Session = Depends(get_db)) -> schemas
 
 
 @router.put("/{role_id}", status_code=status.HTTP_200_OK, response_model=schemas.Role)
-async def update_role(role_id: int, updated_role: schemas.RoleBase, db: Session = Depends(get_db)) -> schemas.Role:
+async def update_role(role_id: int, updated_role: schemas.Role, db: Session = Depends(get_db)) -> schemas.Role:
     role = db.query(models.Role).filter(models.Role.id == role_id).first()
     if role is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Role não encontrada")

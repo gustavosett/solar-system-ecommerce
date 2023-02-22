@@ -30,21 +30,8 @@ class UserCreate(UserBase):
     confirm_password: str
 
 
-class User(UserBase):
-    id: int
-    # role = str
-    status: str
-    created_at: datetime
-    last_email_modification: Optional[datetime]
-    last_password_modification: Optional[datetime]
-    last_activity: datetime
-    addresses: List['Address'] = []
-
-    class Config:
-        orm_mode = True
-
-
 class AddressBase(BaseModel):
+    user_id: int
     street: str
     number: str
     complement: Optional[str]
@@ -60,7 +47,19 @@ class AddressCreate(AddressBase):
 
 class Address(AddressBase):
     id: int
-    user_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class User(UserBase):
+    id: int
+    status: Optional[str]
+    created_at: Optional[datetime]
+    last_email_modification: Optional[datetime]
+    last_password_modification: Optional[datetime]
+    last_activity: Optional[datetime]
+    addresses: List[Address] = []
 
     class Config:
         orm_mode = True

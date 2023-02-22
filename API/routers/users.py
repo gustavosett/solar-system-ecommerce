@@ -42,7 +42,7 @@ async def get_user_by_id(user_id: int, db: Session = Depends(get_db)) -> schemas
 
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK, response_model=schemas.User)
-async def update_user(user_id: int, updated_user: schemas.UserBase, db: Session = Depends(get_db)) -> schemas.User:
+async def update_user(user_id: int, updated_user: schemas.User, db: Session = Depends(get_db)) -> schemas.User:
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado")
